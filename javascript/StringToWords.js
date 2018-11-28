@@ -26,7 +26,8 @@ function breakingUpString(str){
 }
 
 // iterative.  does:  'pea nut butter'
-function recurse(list, str){
+function recurse(str){
+    let list = [];
     let startIdx = 0;
     for (let i = 1; i <= str.length; i++){
         let word = str.slice(startIdx, i);
@@ -51,7 +52,8 @@ function recurse(list, str){
 }
 
 /// Function will keep trying to combine words.
-function peanut(list, str){
+function peanut(str){
+    let list = [];
     let startIdx = 0;
     for (let i = 1; i <= str.length; i++){
         let word = str.slice(startIdx, i);
@@ -93,8 +95,9 @@ function main(){
     listofwords = ["peanutbutter", "thishasnokeywords","asdfghjklbutter"];
     //let results = listofwords.map( word => breakingUpString(word) );
     //console.log(results)
-
-    let results = listofwords.map ( word => peanut([], word));
-    console.log("RESULTS: ", results);
+    fn = [breakingUpString, recurse, peanut]
+    fn.forEach(fn => {
+        console.log( `Function(${fn.name}):`,listofwords.map ( word => fn(word)))
+    });
 }
 main();
