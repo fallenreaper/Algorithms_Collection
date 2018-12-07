@@ -4,6 +4,10 @@
 // Find the min index to start at to make 1 full loop.
 // note: car holds unlimited fuel.
 
+// Implementation details.  While there is some pruning to optimize, it is generally a O(n!) runtime.
+//   it doesnt need all answers, just the earliest index which satifsies the problem.  So it wont do anything thereafter.
+//   On the start, if the current gas stations fuel cant even get to the next, it returns a no-go.
+
 function solution(gas, cost){
     for (let i = 0; i < gas.length; i++){
         if (gas[i] < cost[i]) continue;
