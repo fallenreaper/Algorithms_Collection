@@ -1,5 +1,6 @@
 // given array of size end, find element which appears more than floor(n/2) times.
 
+//Runtime: o(2n)
 function solution(arr){
     flag = Math.floor(arr.length / 2) + 1;
     let m = {};
