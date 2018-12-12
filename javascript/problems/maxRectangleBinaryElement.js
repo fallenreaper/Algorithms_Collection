@@ -14,15 +14,11 @@ class Rectangle{
     toJson() { return {x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2}}
 }
 
-function solution(matrix,x,y){
-    if (x > matrix.length || y > matrix[0].length){
-        // This denotes a range error on X or Y
-        return -1;
-    }
+function solution(matrix){
     let largest = null;
     //Goal is to create a map of rectangles greater than 1x1, then iterate over them to determine sizes.
-    for (let i = x; i < matrix.length; i++){
-        for (let j = y; j < matrix[i].length; j++){
+    for (let i = 0; i < matrix.length; i++){
+        for (let j = 0; j < matrix[i].length; j++){
             let cell = matrix[i][j];
             // You wont need to look at already visited cells, as they would have already been scanned.
             if (cell == 1){
@@ -85,24 +81,6 @@ function verifyRectangle(matrix, rect) {
     return true;
 }
 
-function isValidRectangle(matrix){
-    for (let arr of matrix){
-        for (let cell of arr){
-            if (cell != 1) return false;
-        }
-    }
-    return true;
-}
-
-function subMatrix (matrix, x, y, w, h) {
-    let result = [];
-    for (let i = x; i < x+w; i++){
-        result.push(matrix[i].slice(y,h+1))
-    }
-    return result;
-}
- 
-
 function main(){
     let matrix = [];
     for (let i = 0; i<3;i++){
@@ -112,35 +90,24 @@ function main(){
         }
     }
     console.log("Sample Matrix: ", matrix);
-    solution(matrix, 0, 0);
-}
-
-function compare(m1,m2){
-    if (m1.length != m2.length) return false;
-    for (let i = 0; i < m1.length; i++){
-        if (m1[i].length != m1[i].length) return false;
-        for (let j = 0; j < m1[i].length; j++){
-            if (m1[i][j] != m2[i][j]) return false;
-        }
-    }
-    return true;
+    solution(matrix);
 }
 
 function test(){
     let testMatrix = [[1,1,0],[1,1,0],[0,1,1]];
     console.log("Test 1:")
     console.log(testMatrix);
-    solution(testMatrix, 0, 0);
+    solution(testMatrix);
 
     console.log("---------------------------\nTest 2:")
     testMatrix = [[0,1,1,1],[0,1,0,1],[0,1,0,1],[1,1,1,1]];
     console.log(testMatrix)
-    solution(testMatrix, 0, 0)
+    solution(testMatrix)
 
     console.log("---------------------------\nTest 3:")
     testMatrix = [[0,1,1,1],[0,1,1,1],[0,1,1,1],[1,1,1,1]];
     console.log(testMatrix)
-    solution(testMatrix, 0, 0)
+    solution(testMatrix)
 
 
     // let testMatrix = [[1,2,3],[4,5,6],[7,8,9]]
