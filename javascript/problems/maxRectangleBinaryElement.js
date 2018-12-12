@@ -24,6 +24,8 @@ function solution(matrix){
             if (cell == 1){
                 let result = findRectangle(matrix, i, j);
                 if (result){
+                    i = result.x2;
+                    j = result.y2;
                     if (!largest || largest < result){
                         largest = result;
                     }
@@ -95,25 +97,19 @@ function main(){
 
 function test(){
     let testMatrix = [[1,1,0],[1,1,0],[0,1,1]];
-    console.log("Test 1:")
+    console.log("Test 1:");
     console.log(testMatrix);
     solution(testMatrix);
 
-    console.log("---------------------------\nTest 2:")
+    console.log("---------------------------\nTest 2:");
     testMatrix = [[0,1,1,1],[0,1,0,1],[0,1,0,1],[1,1,1,1]];
-    console.log(testMatrix)
-    solution(testMatrix)
+    console.log(testMatrix);
+    solution(testMatrix);
 
-    console.log("---------------------------\nTest 3:")
+    console.log("---------------------------\nTest 3:");
     testMatrix = [[0,1,1,1],[0,1,1,1],[0,1,1,1],[1,1,1,1]];
-    console.log(testMatrix)
-    solution(testMatrix)
-
-
-    // let testMatrix = [[1,2,3],[4,5,6],[7,8,9]]
-    // let testResult = subMatrix(testMatrix, 1, 1, 2, 2);
-    // console.log("Testing subMatrix: ", testResult)
-    // console.log("Is Valid: ", compare([[5,6],[8,9]], testResult))
+    console.log(testMatrix);
+    solution(testMatrix);
 }
 test();
 // main()
