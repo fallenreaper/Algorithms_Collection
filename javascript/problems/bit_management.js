@@ -85,6 +85,17 @@ function _maxNumberOfOnes(str) { // o(n)
     return max;
 }
 
+function solve5p7(num){
+    //pairwise swap.  Swap odd and even bits with eachother with fewest instructions.
+    let bits = (num >> 0).toString(2).split("");
+    for (let i = 0; i < bits.length / 2; i++){
+        let tmp = bits[2 * i];
+        bits[2 * i] = bits[2 * i + 1];
+        bits[2 * i + 1] = tmp;
+    }
+    console.log(`Start: ${(num >> 0).toString(2)}, End: ${bits.join("")}`)
+    return parseInt(bits.join(""), 2)
+}
 
 function main(){
     let test = solve5p1("10000000000", "10011", 6, 2)
@@ -97,7 +108,9 @@ function main(){
     console.log(`Str: ${(16>>0).toString(2)}, Max: ${solve5p3ADV(16)}`)
     console.log(`Str: ${(15>>0).toString(2)}, Max: ${solve5p3ADV(15)}`)
     console.log(`Str: ${(4>>0).toString(2)}, Max: ${solve5p3ADV(4)}`)
-    
+
+    console.log("-------------")
+    console.log(`Result(37): ${solve5p7(37)}`)
 
 }
 main()

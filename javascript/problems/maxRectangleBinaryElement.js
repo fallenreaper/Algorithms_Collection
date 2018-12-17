@@ -85,9 +85,9 @@ function verifyRectangle(matrix, rect) {
 
 function main(){
     let matrix = [];
-    for (let i = 0; i<3;i++){
+    for (let i = 0; i<30;i++){
         matrix.push([])
-        for (let j = 0; j < 3; j++){
+        for (let j = 0; j < 30; j++){
             matrix[i].push(Math.floor(Math.random() * 2))
         }
     }
@@ -111,5 +111,5 @@ function test(){
     console.log(testMatrix);
     solution(testMatrix);
 }
-test();
-// main()
+// test();
+main()
