@@ -86,13 +86,52 @@ function solve7p2 () {
     return this;
 }
 
+function solve7p7(){
+    let cA = new CircularArray(["Test","Foo", "Bar"]);
+    let count = 0;
+    for (let item of cA){
+        if (count == 30) cA.stop();
+        console.log(item)
+        count++;
+    }
+}
 
+class CircularArray {
+    constructor(arr){
+        this.data = arr || [];
+        this.current = 0;
+        this.flag = false;
+    }
+    [Symbol.iterator]() {
+        return {
+            next: () => {
+                this.current ++ ;
+                this.current %= this.data.length;
+                if (this.flag){
+                    return {done: true}
+                }else {
+                    return {value: this.data[this.current], done: false}
+                }
+            }
+        }
+    }
+    add(item){ this.data.push(item); }
+    remove(item){ this.data.remove(item); }
+    stop () { 
+        console.log("Stopping Iteration");
+        this.flag = true; 
+    }
+
+
+}
 
 function main(){
     let data = solve7p2();
     for (let i = 0; i < 100; i++){
         data.dispatchCall();
     }
+
+    solve7p7();
 }
 
 main();
