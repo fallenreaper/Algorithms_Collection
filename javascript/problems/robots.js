@@ -16,7 +16,7 @@ class Grid {
         for (let i = 0; i < r; i++){
             let row = [];
             for (let j = 0; j < c; j++){
-                row.push(new Cell());
+                row.push(new Cell(i,j));
             }
             this.grid.push(row);
         }
@@ -45,20 +45,36 @@ class Grid {
             && !this.getCell(x,y).blocked 
             && !this.getCell(x,y).visited; 
     }
+
+    getAdjacentCells(x,y){
+        // returns an array of [x,y]
+        let results = [];
+        for (let i = x -1; i <= x+1; i++){
+            for(let j = y -1; j <= y+1; j++){
+                if (i < 0 || i > this.grid.length -1) continue;
+                if (j < 0 || j > this.grid[i].length -1) continue;
+                results.push([i,j]);
+            }
+        }
+        return results;
+    }
 }
 
 class Cell {
-    constructor(){
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
         this.visited = false;
         this.blocked = false;
+        this.wave = 0;
     }
 
     setBlocked(){ this.blocked = true; }
     wasVisited() { return this.visited; }
 }
 
-function main(){
-    /*
+function solution(){
+/*
     S0x00   0,2
     00000
     0xx0x   2,1 2,2 2,4
@@ -66,7 +82,7 @@ function main(){
     0x00E   4,1
     */
     // Remove [3,1] to have a success.
-    let grid = new Grid(5,5,[[0,2], [2,1], [2,2], [2,4], [3,1], [3,3], [4,1]]);
+    let grid = new Grid(5,5,[[0,2], [2,1], [2,2], [2,4], [3,3], [4,1]]);
     let start = [0,0];
     let end = [4,4]
     let robot_path = [];
@@ -74,6 +90,7 @@ function main(){
 
     // create a queue to do a Breadth first search of traversals to determine if there is a path
     //  from start to end.
+    let found = false;
     while(true){
         console.log(`Robot Array: ${robot_path}`);
         // If you want to do DFS, use pop.
@@ -81,26 +98,67 @@ function main(){
         console.log(`Current Value of Current: ${current}`);
         if (!current) {
             console.log("FAILED TO FIND A PATH TO END");
-            return false;
+            found = false;
+            break;
         }
         if (current[0] == end[0] && current[1] == end[1]){
             console.log("FOUND A PATH TO END!")
-            return true;
+            found = true;
+            break;
         }
         cell = grid.getCell(current[0], current[1]);
+        let current_wave = cell.wave + 1;
         if (!cell) {
-            return false;
+            found = false;
+            break;
         }
         if (cell.wasVisited()){
             continue;
         }
 
         if (grid.isValidCell(current[0]+1, current[1])){
+            grid.getCell(current[0]+1, current[1]).wave = current_wave;
             robot_path.push([current[0]+1, current[1]]);
         }
         if (grid.isValidCell(current[0], current[1]+1)){
+            grid.getCell(current[0], current[1]+1).wave = current_wave;
             robot_path.push([current[0], current[1]+1]);
         }
+    }
+
+    if (found){
+        console.log( grid.grid.map(row => row.map( cell => cell.wave)));
+        let path = [end];
+        let current = end;
+        
+        while(true){
+            let cell = grid.getCell(current[0], current[1]);
+            if (!cell) break;
+            if (cell.wave == 0) break;
+
+            let adj = grid.getAdjacentCells(cell.x, cell.y);
+            for (let row of adj){
+                let c = grid.getCell(row[0], row[1]);
+                if (!c) continue;
+                if (c.wave == cell.wave -1){
+                    path.push(row);
+                    current = [c.x, c.y];
+                    break;
+                }
+            }
+        }
+        path.reverse()
+        return path;
+
+    }else {
+        return null;
+    }
+}
+
+function main(){
+    let result = solution();
+    if (result){
+        console.log(result);
     }
 }
 main()
