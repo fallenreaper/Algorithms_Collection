@@ -37,10 +37,32 @@ function solution(arr){
     return diff;
 }
 
-function solution2(arr){
+function solution2(arr, col){
     // by looping through all the bits by column, determine what is missing.
     // keep walking by column until the answer presents itself.
     // Answer: TBD later this evening.
+    if (col == null || col === undefined) col = 0;
+
+    if (col >= Number.MAX_VALUE.toString(2).length) return 0;
+    for (let i = 0; i < Number.MAX_VALUE.toString(2).length; i++){
+        let ones = [];
+        let zeroes = [];
+        for (let item of arr){
+            if (item.fetchJthBit(col) == 0){
+                zeroes.push(item)
+            }else{
+                ones.push(item);
+            }
+        }
+        if (zeroes.length <= ones.length){
+            let v = solution2(zeroes, col + 1);
+            return (v<<1) | 0;
+        }else{
+            let v = solution2(ones, col +1 );
+            return (v<<1) | 1;
+        }
+        
+    }
 
 }
 
@@ -55,6 +77,9 @@ function main(){
     }
     let result = solution(arr);
     console.log(`Missing Number: ${result}`)
+
+    let test2 = solution2(arr);
+    console.log("Missing Number 2: ", test2);
 }
 
 //class represeting the ability to fetch By BitAlone.
