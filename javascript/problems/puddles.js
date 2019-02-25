@@ -3,11 +3,11 @@
 /*
 
     x
-x   x
-x x x
-x xxx
+x   x                                 x
+x x x                                xxx
+x xxx                               xxxxx
 
-array = [3, 0, 2, 1, 4]
+array = [3, 0, 2, 1, 4]   OR A HILL [1,2,3,2,1]
 the resting puddlees would be the diff between the the 2 tallest items
 The answer for this sample would be 6
 */
